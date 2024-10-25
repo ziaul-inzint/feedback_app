@@ -1,4 +1,4 @@
-import { dbConnect } from "@/lib/dbConnect";
+import dbConnect from "@/lib/dbConnect";
 import UserModel from "@/model/User";
 import bcrypt from "bcryptjs";
 
@@ -51,7 +51,7 @@ export const POST = async (request: Request) => {
         verifyCode,
         verifyCodeExpiry: expiryDate,
         isVerified: false,
-        isAcceptingMessage: true,
+        isAcceptingMessages: true,
         messages: [],
       });
 

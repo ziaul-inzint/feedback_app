@@ -1,15 +1,15 @@
 import { getServerSession } from "next-auth";
 import { authOptions } from "../auth/[...nextauth]/options";
-import { dbConnect } from "@/lib/dbConnect";
+import dbConnect from "@/lib/dbConnect";
 import UserModel from "@/model/User";
-// import { User } from "next-auth";
+import { User } from "next-auth";
 
 export const POST = async (req: Request) => {
   await dbConnect();
 
   const session = await getServerSession(authOptions);
 
-  const user = session?.user;
+  const user: User = session?.user;
 
   if (!session || !session?.user) {
     return Response.json(
@@ -88,7 +88,7 @@ export const GET = async () => {
       {
         success: true,
         message: "",
-        isAcceptingMessages: foundUser?.isAcceptingMessage,
+        isAcceptingMessages: foundUser?.isAcceptingMessages,
       },
       { status: 200 }
     );

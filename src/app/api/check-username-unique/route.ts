@@ -1,10 +1,10 @@
-import { dbConnect } from "@/lib/dbConnect";
+import dbConnect from "@/lib/dbConnect";
 import UserModel from "@/model/User";
 import { z } from "zod";
-import { usernameValidationSchema } from "@/schemas/signUpSchema";
+import { usernameValidation } from "@/schemas/signUpSchema";
 
 const UsernameQuerySchema = z.object({
-  username: usernameValidationSchema,
+  username: usernameValidation,
 });
 
 export const GET = async (request: Request) => {
@@ -18,8 +18,8 @@ export const GET = async (request: Request) => {
       { status: 405 }
     );
   }
-
   await dbConnect();
+
   try {
     const { searchParams } = new URL(request.url);
     const queryParams = { username: searchParams.get("username") };
@@ -54,7 +54,7 @@ export const GET = async (request: Request) => {
           success: false,
           message: "Username is already taken",
         },
-        { status: 400 }
+        { status: 200 }
       );
     }
 

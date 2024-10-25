@@ -2,7 +2,7 @@
 import { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import bcrypt from "bcryptjs";
-import { dbConnect } from "@/lib/dbConnect";
+import dbConnect from "@/lib/dbConnect";
 import UserModel from "@/model/User";
 
 export const authOptions: NextAuthOptions = {
@@ -62,11 +62,11 @@ export const authOptions: NextAuthOptions = {
       return session;
     },
   },
+  session: {
+    strategy: "jwt",
+  },
+  secret: process.env.NEXTAUTH_SECRET,
   pages: {
     signIn: "/sign-in",
   },
-  session: {
-    strategy: "jwt", // Using JWT strategy for session
-  },
-  secret: process.env.NEXT_AUTH_SECRET,
 };

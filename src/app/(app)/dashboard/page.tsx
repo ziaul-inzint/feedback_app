@@ -1,6 +1,6 @@
 "use client";
+
 import { MessageCard } from "@/components/MessageCard";
-import { useToast } from "@/hooks/use-toast";
 import { Message } from "@/model/User";
 import { acceptMessagesSchema } from "@/schemas/acceptMessageSchema";
 import { ApiResponse } from "@/types/ApiResponse";
@@ -14,6 +14,7 @@ import { Loader2, RefreshCcw } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
 import { Switch } from "@/components/ui/switch";
 import { User } from "next-auth";
+import { useToast } from "@/components/ui/use-toast";
 
 const Dashboard = () => {
   const [messages, setMessages] = useState<Message[]>([]);
@@ -53,7 +54,7 @@ const Dashboard = () => {
     } finally {
       setIsSwitchLoading(false);
     }
-  }, [setValue]);
+  }, [setValue, toast]);
 
   const fetchAllMessages = useCallback(
     async (refresh?: boolean) => {
@@ -84,7 +85,7 @@ const Dashboard = () => {
         setIsSwitchLoading(false);
       }
     },
-    [setIsLoading, setMessages]
+    [setIsLoading, setMessages, toast]
   );
 
   useEffect(() => {

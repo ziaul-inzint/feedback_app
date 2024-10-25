@@ -18,7 +18,7 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { Button } from "./ui/button";
-import { useToast } from "@/hooks/use-toast";
+import { useToast } from "@/components/ui/use-toast";
 import { ApiResponse } from "@/types/ApiResponse";
 
 type MessageCardProps = {
@@ -32,7 +32,7 @@ export function MessageCard({ message, onMessageDelete }: MessageCardProps) {
   const handleDeleteConfirm = async () => {
     try {
       const res = await axios.delete<ApiResponse>(
-        `/api/delete-message/${message._id}`
+        `/api/delete-message/${message?._id}`
       );
       toast({
         title: res.data.message,

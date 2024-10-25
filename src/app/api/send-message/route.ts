@@ -1,4 +1,4 @@
-import { dbConnect } from "@/lib/dbConnect";
+import dbConnect from "@/lib/dbConnect";
 import UserModel from "@/model/User";
 import { Message } from "@/model/User";
 
@@ -15,7 +15,7 @@ export const POST = async (req: Request) => {
       );
     }
 
-    if (!user.isAcceptingMessage) {
+    if (!user.isAcceptingMessages) {
       return Response.json(
         { success: false, message: "User not accepting messages" },
         { status: 403 }

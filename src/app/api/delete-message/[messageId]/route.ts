@@ -1,6 +1,6 @@
-import { getServerSession } from "next-auth";
+import { getServerSession, User } from "next-auth";
 import { authOptions } from "../../auth/[...nextauth]/options";
-import { dbConnect } from "@/lib/dbConnect";
+import dbConnect from "@/lib/dbConnect";
 import UserModel from "@/model/User";
 
 export const DELETE = async (
@@ -13,7 +13,7 @@ export const DELETE = async (
 
   const session = await getServerSession(authOptions);
 
-  const user = session?.user;
+  const user: User = session?.user;
 
   if (!session || !session?.user) {
     return Response.json(

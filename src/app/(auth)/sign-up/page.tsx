@@ -5,13 +5,12 @@ import { useForm } from "react-hook-form";
 import * as z from "zod";
 import Link from "next/link";
 import { useDebounceCallback } from "usehooks-ts";
-import { useToast } from "@/hooks/use-toast";
+import { useToast } from "@/components/ui/use-toast";
 import { signUpSchema } from "@/schemas/signUpSchema";
 import axios, { AxiosError } from "axios";
 import { ApiResponse } from "@/types/ApiResponse";
 import {
   Form,
-  FormControl,
   FormField,
   FormItem,
   FormLabel,
@@ -95,9 +94,9 @@ const SignIn = () => {
       <div className="w-full max-w-md p-8 space-y-8 bg-white rounded-lg shadow-md">
         <div className="text-center">
           <h1 className="text-4xl font-extrabold tracking-tight lg:text-5xl mb-6">
-            Welcome Back to True Feedback
+            Join True Feedback
           </h1>
-          <p className="mb-4">Sign in to continue your secret conversations</p>
+          <p className="mb-4">Sign up to start your anonymous adventure</p>
         </div>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
@@ -107,29 +106,25 @@ const SignIn = () => {
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Username</FormLabel>
-                  <FormControl>
-                    <Input
-                      type="text"
-                      placeholder="Username"
-                      {...field}
-                      onChange={(e) => {
-                        field.onChange(e);
-                        debounced(e.target.value);
-                      }}
-                    />
-                  </FormControl>
-                  {isLoading && (
-                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  <Input
+                    {...field}
+                    onChange={(e) => {
+                      field.onChange(e);
+                      debounced(e.target.value);
+                    }}
+                  />
+                  {isLoading && <Loader2 className="animate-spin" />}
+                  {!isLoading && usernameMessage && (
+                    <p
+                      className={`text-sm ${
+                        usernameMessage === "Username is unique"
+                          ? "text-green-500"
+                          : "text-red-500"
+                      }`}
+                    >
+                      {usernameMessage}
+                    </p>
                   )}
-                  <p
-                    className={`text-sm ${
-                      usernameMessage === "Username is available"
-                        ? "text-green-700"
-                        : "text-red-500"
-                    }`}
-                  >
-                    {usernameMessage}
-                  </p>
                   <FormMessage />
                 </FormItem>
               )}
@@ -140,38 +135,42 @@ const SignIn = () => {
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Email</FormLabel>
-                  <Input type="email" placeholder="Email" {...field} />
+                  <Input {...field} name="email" />
+                  <p className="text-muted text-gray-400 text-sm">
+                    We will send you a verification code
+                  </p>
                   <FormMessage />
                 </FormItem>
               )}
             />
+
             <FormField
               name="password"
               control={form.control}
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Password</FormLabel>
-                  <Input type="password" {...field} />
+                  <Input type="password" {...field} name="password" />
                   <FormMessage />
                 </FormItem>
               )}
             />
-            <Button className="w-full" type="submit" disabled={isSubmitting}>
+            <Button type="submit" className="w-full" disabled={isSubmitting}>
               {isSubmitting ? (
                 <>
-                  <Loader2 className="mr-2 h-4 w-4 animate-spin" /> PLease Wait
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  Please wait
                 </>
               ) : (
-                "Sign up"
-              )}{" "}
-              Sign In
+                "Sign Up"
+              )}
             </Button>
           </form>
         </Form>
         <div className="text-center mt-4">
           <p>
-            Not a member yet?{" "}
-            <Link href="/sign-up" className="text-blue-600 hover:text-blue-800">
+            Already a member?{" "}
+            <Link href="/sign-in" className="text-blue-600 hover:text-blue-800">
               Sign in
             </Link>
           </p>
